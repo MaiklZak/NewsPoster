@@ -1,10 +1,30 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://thymeleaf.org>" >
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Main</title>
+    <title>Messages</title>
 </head>
 <body>
-    <p th:text="${some}"/>
+    <form th:method="POST" th:action="@{/}" th:object="${message}">
+            <label for="text">Enter text: </label>
+            <input type="text" th:field="*{text}" id="text">
+            <label for="tag">Enter tag: </label>
+            <input type="text" th:field="*{tag}" id="tag">
+<!--        <input type="text" name="text" id="text">-->
+<!--        <input type="text" name="tag" id="tag">-->
+        <button type="submit">Add</button>
+    </form>
+    <br>
+    <form th:method="POST" th:action="@{/filter}" th:object="${message}">
+        <label for="filter">Find by tag:</label>
+        <input type="text" th:field="*{tag}" id="filter">
+        <button type="submit">Find</button>
+    </form>
+
+    <p>All messages:</p>
+    <div th:each="message : ${messages}">
+       <div th:text="${message.getId()} + ' ' + ${message.getText()} + '  <' + ${message.getTag()} + '>'"></div>
+    </div>
 </body>
 </html>
