@@ -1,4 +1,4 @@
-package com.example.servingwebcontent;
+package com.example.servingwebcontent.controller;
 
 import com.example.servingwebcontent.domain.Message;
 import com.example.servingwebcontent.repository.MessageRepository;
@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-public class GreetingController {
+public class MainController {
 
     private final MessageRepository messageRepository;
 
-    public GreetingController(MessageRepository messageRepository) {
+    public MainController(MessageRepository messageRepository) {
         this.messageRepository = messageRepository;
     }
 
