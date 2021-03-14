@@ -1,7 +1,9 @@
 package com.example.servingwebcontent.controller;
 
 import com.example.servingwebcontent.domain.Message;
+import com.example.servingwebcontent.domain.User;
 import com.example.servingwebcontent.repository.MessageRepository;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,7 +34,11 @@ public class MainController {
     }
 
     @PostMapping("/main")
-    public String add(@ModelAttribute("message") Message message, Model model) {
+    public String add(
+            @AuthenticationPrincipal User user,
+            @ModelAttribute("message") Message message,
+            Model model) {
+        message.setAuthor(user);
         messageRepository.save(message);
         Iterable<Message> messages = messageRepository.findAll();
         model.addAttribute("messages", messages);

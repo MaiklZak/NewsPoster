@@ -10,8 +10,9 @@
 <form th:action="@{/logout}" method="post">
     <input type="submit" value="Sign Out"/>
 </form>
-
-<form th:method="POST" th:action="@{/}" th:object="${message}">
+<br>
+<br>
+<form th:method="POST" th:action="@{/main}" th:object="${message}">
     <label for="text">Enter text: </label>
     <input type="text" th:field="*{text}" id="text">
     <label for="tag">Enter tag: </label>
@@ -29,7 +30,7 @@
 
 <p>All messages:</p>
 <div th:each="message : ${messages}">
-    <div th:text="${message.getId()} + ' ' + ${message.getText()} + '  <' + ${message.getTag()} + '>'"></div>
+    <div th:text="${message.getId()} + ' ' + ${message.getText()} + '  <' + ${message.getTag()} + '> ' + ${message.getAuthorName()}"></div>
 </div>
 </body>
 </html>
