@@ -22,9 +22,9 @@
     <button type="submit">Add</button>
 </form>
 <br>
-<form th:method="POST" th:action="@{/filter}" th:object="${message}">
+<form th:method="get" action="/main">
     <label for="filter">Find by tag:</label>
-    <input type="text" th:field="*{tag}" id="filter">
+    <input type="text" name="filter" id="filter">
     <button type="submit">Find</button>
 </form>
 
