@@ -11,7 +11,10 @@
     <input type="submit" value="Sign Out"/>
 </form>
 <br>
+<span><a href="/user">User list</a></span>
 <br>
+<br>
+<p>
 <form th:method="POST" th:action="@{/main}" th:object="${message}">
     <label for="text">Enter text: </label>
     <input type="text" th:field="*{text}" id="text">
@@ -21,10 +24,11 @@
     <!--        <input type="text" name="tag" id="tag">-->
     <button type="submit">Add</button>
 </form>
+</p>
 <br>
 <form th:method="get" action="/main">
     <label for="filter">Find by tag:</label>
-    <input type="text" name="filter" id="filter">
+    <input type="text" name="filter" id="filter" placeholder="find by tag">
     <button type="submit">Find</button>
 </form>
 
