@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Messages</title>
+    <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
 <h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
@@ -15,11 +16,13 @@
 <br>
 <br>
 <p>
-<form th:method="POST" th:action="@{/main}" th:object="${message}">
+<form th:method="POST" th:action="@{/main}" enctype="multipart/form-data" th:object="${message}">
     <label for="text">Enter text: </label>
     <input type="text" th:field="*{text}" id="text">
     <label for="tag">Enter tag: </label>
     <input type="text" th:field="*{tag}" id="tag">
+
+    <input type="file" name="file">
     <!--        <input type="text" name="text" id="text">-->
     <!--        <input type="text" name="tag" id="tag">-->
     <button type="submit">Add</button>
@@ -34,7 +37,13 @@
 
 <p>All messages:</p>
 <div th:each="message : ${messages}">
-    <div th:text="${message.getId()} + ' ' + ${message.getText()} + '  <' + ${message.getTag()} + '> ' + ${message.getAuthorName()}"></div>
+    <b th:text="${message.getId()}"></b>
+    <span th:text="${message.getText()}"></span>
+    <i th:text="${message.getTag()}"></i>
+    <strong th:text="${message.getAuthorName()}"></strong>
+
+    <img th:if="${message.filename != null}" th:src="@{/img/{filename}(filename=${message.filename})}">
+
 </div>
 </body>
 </html>
