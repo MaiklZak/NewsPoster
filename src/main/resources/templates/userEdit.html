@@ -4,8 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <title>User editor</title>
+    <meta th:insert="fragments/common :: style">
 </head>
 <body>
+<div th:insert="fragments/navbar :: navbar"></div>
+<div class="container mt-5">
 <p>User editor:</p>
 <p>
 <form th:action="@{/user}" method="post" th:object="${user}">
@@ -17,6 +20,8 @@
     </div>
     <button type="submit">Save</button>
 </form>
-</p>
+    </p>
+</div>
+<meta th:insert="fragments/common :: javaScript">
 </body>
 </html>

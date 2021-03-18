@@ -4,46 +4,66 @@
 <head>
     <meta charset="UTF-8">
     <title>Messages</title>
-    <link rel="stylesheet" href="/static/style.css">
+    <meta th:insert="fragments/common :: style">
 </head>
 <body>
-<h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
-<form th:action="@{/logout}" method="post">
-    <input type="submit" value="Sign Out"/>
-</form>
-<br>
-<span><a href="/user">User list</a></span>
-<br>
-<br>
-<p>
-<form th:method="POST" th:action="@{/main}" enctype="multipart/form-data" th:object="${message}">
-    <label for="text">Enter text: </label>
-    <input type="text" th:field="*{text}" id="text">
-    <label for="tag">Enter tag: </label>
-    <input type="text" th:field="*{tag}" id="tag">
+<div th:insert="fragments/navbar :: navbar"></div>
+<div class="container mt-5">
+    <h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
+    <div class="row g-3">
+        <div class="col-md-6">
+            <form th:method="get" action="/main" class="form-inline">
+                <input class="form-control" type="text" name="filter" id="filter" placeholder="Search by tag"/>
+                <button class="btn btn-primary ml-2" type="submit">Search</button>
+            </form>
+        </div>
+    </div>
+    <a class="btn btn-primary mt-3" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
+       aria-controls="collapseExample">
+        Add new Message
+    </a>
+    <div class="collapse" id="collapseExample">
+        <div class="mb-3 mt-3">
+            <form th:method="POST" th:action="@{/main}" enctype="multipart/form-data" th:object="${message}">
+                <div class="form-group">
+                    <input class="form-control" type="text" th:field="*{text}" id="text" placeholder="Enter message">
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="text" th:field="*{tag}" id="tag" placeholder="Tag">
+                </div>
+                <div class="form-group">
+                    <div class="custom-file">
+                        <input type="file" name="file" id="customFile">
+                        <label class="custom-file-label" for="customFile">Choose file</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-primary" type="submit">Add</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
-    <input type="file" name="file">
-    <!--        <input type="text" name="text" id="text">-->
-    <!--        <input type="text" name="tag" id="tag">-->
-    <button type="submit">Add</button>
-</form>
-</p>
-<br>
-<form th:method="get" action="/main">
-    <label for="filter">Find by tag:</label>
-    <input type="text" name="filter" id="filter" placeholder="find by tag">
-    <button type="submit">Find</button>
-</form>
 
-<p>All messages:</p>
-<div th:each="message : ${messages}">
-    <b th:text="${message.getId()}"></b>
-    <span th:text="${message.getText()}"></span>
-    <i th:text="${message.getTag()}"></i>
-    <strong th:text="${message.getAuthorName()}"></strong>
-
-    <img th:if="${message.filename != null}" th:src="@{/img/{filename}(filename=${message.filename})}">
-
+    <p>All messages:</p>
+    <div class="card-columns">
+        <div th:each="message : ${messages}">
+            <div class="card my-3">
+                <div class="card-img-top">
+                    <img th:if="${message.filename != null}"
+                         th:src="@{/img/{filename}(filename=${message.filename})}">
+                </div>
+                <div class="m-2">
+                    <span th:text="${message.getText()}"></span>
+                    <i th:text="${message.getTag()}"></i>
+                </div>
+                <div class="card-footer text-muted">
+                    <div th:text="${message.getAuthorName()}"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+<meta th:insert="fragments/common :: javaScript">
 </body>
 </html>

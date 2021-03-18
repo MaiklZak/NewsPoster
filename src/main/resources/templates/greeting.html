@@ -1,12 +1,17 @@
 <!DOCTYPE html>
 <!--<html xmlns:th="http://www.thymeleaf.org">-->  <!--delete WWW-->
-<html xmlns:th="http://thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>Getting Started: Serving Web Content</title>
+    <meta th:insert="fragments/common :: style">
 </head>
 <body>
-    <p>Hello User</p>
-    <a href="/main">Main page</a>
+<div th:insert="fragments/navbar :: navbar"></div>
+<div class="container mt-5">
+    <h5>Hello, guest</h5>
+    <div>Welcome to NewsPoster!</div>
+</div>
+<meta th:insert="fragments/common :: javaScript"/>
 </body>
 </html>
