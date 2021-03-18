@@ -1,4 +1,4 @@
-<div th:fragment="loging (path, bool)" xmlns:th="http://www.w3.org/1999/xhtml">
+<div th:fragment="loging (path, isReg)" xmlns:th="http://www.w3.org/1999/xhtml">
     <div th:if="${param.error}">
         Invalid username and password.
     </div>
@@ -18,12 +18,20 @@
                 <input type="password" name="password" class="form-control" placeholder="Password"/>
             </div>
         </div>
-        <th:block th:if="${bool == 'true'}">
+        <th:block th:if="${isReg != 'true'}">
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label">Email:</label>
+                <div class="col-sm-6">
+                    <input type="email" name="email" class="form-control" placeholder="some@some.com"/>
+                </div>
+            </div>
+        </th:block>
+        <th:block th:if="${isReg == 'true'}">
             <a href="/registration">Add new user</a>
         </th:block>
         <button class="btn btn-primary" type="submit">
-            <th:bloch th:if="${bool == 'true'}">Sign In</th:bloch>
-            <th:bloch th:if="${bool == 'false'}">Create</th:bloch>
+            <th:bloch th:if="${isReg == 'true'}">Sign In</th:bloch>
+            <th:bloch th:if="${isReg == 'false'}">Create</th:bloch>
         </button>
     </form>
 </div>

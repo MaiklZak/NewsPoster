@@ -8,9 +8,8 @@
 <body>
 <div th:insert="fragments/navbar :: navbar"></div>
 <div class="container mt-5">
-<div th:insert="fragments/forms :: loging ('/login', 'true')"></div>
-
-
+    <span th:text="${message != null} ? ${message}">Value</span>
+    <div th:insert="fragments/forms :: loging ('/login', 'true')"></div>
 </div>
 <meta th:insert="fragments/common :: javaScript">
 </body>
