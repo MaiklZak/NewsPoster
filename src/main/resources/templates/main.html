@@ -9,7 +9,7 @@
 <body>
 <div th:insert="fragments/navbar :: navbar"></div>
 <div class="container mt-5">
-    <h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
+<!--    <h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>-->
     <div class="row g-3">
         <div class="col-md-6">
             <form th:method="get" action="/main" class="form-inline">
@@ -45,7 +45,7 @@
     </div>
 
 
-    <p>All messages:</p>
+    <p th:text="${#lists.size(messages) != 0} ? 'All messages:' : 'No messages'"></p>
     <div class="card-columns">
         <div th:each="message : ${messages}">
             <div class="card my-3">
