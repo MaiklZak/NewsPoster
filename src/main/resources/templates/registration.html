@@ -9,9 +9,9 @@
 <div th:insert="fragments/navbar :: navbar"></div>
 <div class="container mt-5">
     <div class="mb-1">Add new user</div>
-    <span th:text="${message != null} ? ${message}">Value</span>
+    <span th:text="${userError != null} ? ${userError}">Value</span>
 
-    <div th:insert="fragments/forms :: loging ('/registration', 'false')"></div>
+    <div th:insert="fragments/forms :: loging ('/registration', 'true')"></div>
 </div>
 <meta th:insert="fragments/common :: javaScript">
 </body>

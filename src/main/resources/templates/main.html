@@ -22,14 +22,20 @@
        aria-controls="collapseExample">
         Add new Message
     </a>
-    <div class="collapse" id="collapseExample">
+    <div th:class="${message.text != null} ? 'collapse show' : 'collapse'" id="collapseExample">
         <div class="mb-3 mt-3">
             <form th:method="POST" th:action="@{/main}" enctype="multipart/form-data" th:object="${message}">
                 <div class="form-group">
-                    <input class="form-control" type="text" th:field="*{text}" id="text" placeholder="Enter message">
+                    <input th:class="${#fields.hasErrors('text')} ? 'form-control is-invalid' : 'form-control'" type="text"
+                           th:field="*{text}" id="text" placeholder="Enter message"
+                           th:value="${message != null} ? ${message.text}">
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('text')}" th:errors="*{text}">Text error</div>
                 </div>
                 <div class="form-group">
-                    <input class="form-control" type="text" th:field="*{tag}" id="tag" placeholder="Tag">
+                    <input th:class="${#fields.hasErrors('tag')} ? 'form-control is-invalid' : 'form-control'" type="text"
+                           th:field="*{tag}" id="tag" placeholder="Tag"
+                           th:value="${message != null} ? ${message.tag}">
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('tag')}" th:errors="*{tag}">Tag error</div>
                 </div>
                 <div class="form-group">
                     <div class="custom-file">
@@ -45,20 +51,20 @@
     </div>
 
 
-    <p th:text="${#lists.size(messages) != 0} ? 'All messages:' : 'No messages'"></p>
+    <p th:text="${#lists.size(messages) != 0} ? '' : 'No messages'"></p>
     <div class="card-columns">
-        <div th:each="message : ${messages}">
+        <div th:each="mes : ${messages}">
             <div class="card my-3">
                 <div class="card-img-top">
-                    <img th:if="${message.filename != null}"
-                         th:src="@{/img/{filename}(filename=${message.filename})}">
+                    <img th:if="${mes.filename != null}"
+                         th:src="@{/img/{filename}(filename=${mes.filename})}">
                 </div>
                 <div class="m-2">
-                    <span th:text="${message.getText()}"></span>
-                    <i th:text="${message.getTag()}"></i>
+                    <span th:text="${mes.getText()}"></span>
+                    <i th:text="${mes.getTag()}"></i>
                 </div>
                 <div class="card-footer text-muted">
-                    <div th:text="${message.getAuthorName()}"></div>
+                    <div th:text="${mes.getAuthorName()}"></div>
                 </div>
             </div>
         </div>
