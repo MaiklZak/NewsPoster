@@ -8,6 +8,12 @@
 <body>
 <div th:insert="fragments/navbar :: navbar"></div>
 <div class="container mt-5">
+    <div th:if="${session != null } and ${session['SPRING_SECURITY_LAST_EXCEPTION']}"
+         th:with="errorMsg=${session['SPRING_SECURITY_LAST_EXCEPTION'].message}">
+        <div class="alert alert-danger">
+            Reason: <span th:text="${errorMsg}">Demo Invalid input</span>
+        </div>
+    </div>
     <span th:text="${message != null} ? ${message}">Value</span>
     <div th:insert="fragments/forms :: loging ('/login', 'false')"></div>
 </div>

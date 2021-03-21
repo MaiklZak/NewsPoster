@@ -1,11 +1,11 @@
 <div th:fragment="loging (path, isReg)" xmlns="http://www.w3.org/1999/xhtml"
      xmlns:th="http://www.thymeleaf.org">
-    <div th:if="${param.error}">
-        Invalid username and password.
-    </div>
-    <div th:if="${param.logout}">
-        You have been logged out.
-    </div>
+<!--    <div th:if="${param.error}">-->
+<!--        Invalid username and password.-->
+<!--    </div>-->
+<!--    <div th:if="${param.logout}">-->
+<!--        You have been logged out.-->
+<!--    </div>-->
     <form th:action="${path}" method="post">
         <div class="row mb-3">
             <label class="col-sm-2 col-form-label"> User Name : </label>

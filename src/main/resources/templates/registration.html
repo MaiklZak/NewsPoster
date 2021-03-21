@@ -8,10 +8,73 @@
 <body>
 <div th:insert="fragments/navbar :: navbar"></div>
 <div class="container mt-5">
+
     <div class="mb-1">Add new user</div>
     <span th:text="${userError != null} ? ${userError}">Value</span>
+    <div th:if="${param.error}">
+        Invalid username and password.
+    </div>
+    <div th:if="${param.logout}">
+        You have been logged out.
+    </div>
+    <form th:action="@{/registration}" method="post" th:object="${user}">
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label"> User Name : </label>
+            <div class="col-sm-6">
+                <input th:class="${#fields.hasErrors('username')} ? 'form-control is-invalid' : 'form-control'"
+                       type="text"
+                       th:field="*{username}"
+                       placeholder="User name"
+                       th:value="${user != null} ? ${user.username}"/>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Text
+                    error
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label">Password:</label>
+            <div class="col-sm-6">
+                <input th:class="${#fields.hasErrors('password')} ? 'form-control is-invalid' : (${passwordErrorDif != null} ? 'form-control is-invalid' :'form-control')"
+                       type="password"
+                       th:field="*{password}"
+                       placeholder="Password"/>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Text
+                    error
+                </div>
+                <div class="invalid-feedback" th:text="${passwordErrorDif}"></div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label">Password:</label>
+            <div class="col-sm-6">
+                <input th:class="${#fields.hasErrors('password2')} ? 'form-control is-invalid' : (${passwordErrorDif != null} ? 'form-control is-invalid' :'form-control')"
+                       type="password"
+                       th:field="*{password2}"
+                       placeholder="Retype password"/>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('password2')}" th:errors="*{password2}">Text
+                    error
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label">Email:</label>
+            <div class="col-sm-6">
+                <input th:class="${#fields.hasErrors('email')} ? 'form-control is-invalid' : 'form-control'"
+                       type="email"
+                       th:field="*{email}"
+                       placeholder="some@some.com"
+                       th:value="${user != null} ? ${user.email}"/>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Text error
+                </div>
+            </div>
+        </div>
+        <button class="btn btn-primary" type="submit">
+            <th:bloch>Create</th:bloch>
+        </button>
+    </form>
 
-    <div th:insert="fragments/forms :: loging ('/registration', 'true')"></div>
+
+    <!--    <div th:insert="fragments/forms :: loging ('/registration', 'true')"></div>-->
 </div>
 <meta th:insert="fragments/common :: javaScript">
 </body>
