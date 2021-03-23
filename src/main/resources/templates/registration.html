@@ -47,11 +47,11 @@
         <div class="row mb-3">
             <label class="col-sm-2 col-form-label">Password:</label>
             <div class="col-sm-6">
-                <input th:class="${#fields.hasErrors('password2')} ? 'form-control is-invalid' : (${passwordErrorDif != null} ? 'form-control is-invalid' :'form-control')"
+                <input th:class="${password2Error != null} ? 'form-control is-invalid' : (${passwordErrorDif != null} ? 'form-control is-invalid' :'form-control')"
                        type="password"
-                       th:field="*{password2}"
+                       th:name="password2"
                        placeholder="Retype password"/>
-                <div class="invalid-feedback" th:if="${#fields.hasErrors('password2')}" th:errors="*{password2}">Text
+                <div class="invalid-feedback" th:if="${password2Error != null}" th:text="${password2Error}">Text
                     error
                 </div>
             </div>
@@ -67,6 +67,14 @@
                 <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Text error
                 </div>
             </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="g-recaptcha" data-sitekey="6LfAL4oaAAAAAIvVhSwv2wI2Y3J31B2JCJHnLjf_"></div>
+            <th:block th:if="${captchaError != null}">
+                <div th:class="'alert alert-danger'"
+                     th:text="${captchaError}">Value
+                </div>
+            </th:block>
         </div>
         <button class="btn btn-primary" type="submit">
             <th:bloch>Create</th:bloch>

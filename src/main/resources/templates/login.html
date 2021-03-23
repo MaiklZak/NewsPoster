@@ -8,13 +8,20 @@
 <body>
 <div th:insert="fragments/navbar :: navbar"></div>
 <div class="container mt-5">
-    <div th:if="${session != null } and ${session['SPRING_SECURITY_LAST_EXCEPTION']}"
-         th:with="errorMsg=${session['SPRING_SECURITY_LAST_EXCEPTION'].message}">
-        <div class="alert alert-danger">
-            Reason: <span th:text="${errorMsg}">Demo Invalid input</span>
+    <th:block th:if="${#request.getParameter('error') != null}">
+        <div th:if="${session != null } and ${session['SPRING_SECURITY_LAST_EXCEPTION']}"
+             th:with="errorMsg=${session['SPRING_SECURITY_LAST_EXCEPTION'].message}">
+            <div class="alert alert-danger">
+                Reason: <span th:text="${errorMsg}">Demo Invalid input</span>
+            </div>
         </div>
-    </div>
-    <span th:text="${message != null} ? ${message}">Value</span>
+    </th:block>
+    <th:block th:if="${message != null}">
+        <div th:class="${messageType == 'danger'} ? 'alert alert-danger' : 'alert alert-success'"
+             th:text="${message}">Value
+        </div>
+    </th:block>
+
     <div th:insert="fragments/forms :: loging ('/login', 'false')"></div>
 </div>
 <meta th:insert="fragments/common :: javaScript">

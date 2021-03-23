@@ -74,7 +74,7 @@ public class UserService implements UserDetailsService {
             return false;
         }
         user.setActivationCode(null);
-        user.setPassword2("cannot be empty");
+//        user.setPassword2("cannot be empty");
         userRepository.save(user);
         return true;
     }
