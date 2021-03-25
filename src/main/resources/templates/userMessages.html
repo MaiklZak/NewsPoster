@@ -9,7 +9,42 @@
 <body>
 <div th:insert="fragments/navbar :: navbar"></div>
 <div class="container mt-5">
-    <div class="alert alert-primary" th:if="${message == null}" th:text="'Select the message to edit!'"></div>
+    <h3 th:text="${userChannel.username}"></h3>
+    <th:block th:if="${!isCurrentUser}">
+        <th:block th:if="${isSubscriber}">
+            <a class="btn btn-info" th:href="@{/user/unsubscribe/{id}(id=${userChannel.id})}" th:text="'Unsubscribe'"></a>
+        </th:block>
+        <th:block th:unless="${isSubscriber}">
+            <a class="btn btn-info" th:href="@{/user/subscribe/{id}(id=${userChannel.id})}" th:text="'Subscribe'"></a>
+        </th:block>
+    </th:block>
+    <div class="container my-3">
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-title">Subscriptions</div>
+                        <h3 class="card-text">
+                            <a th:href="@{/user/subscriptions/{id}/list(id=${userChannel.id})}"
+                               th:text="${subscriptionsCount}"></a>
+                        </h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-title">Subscribers</div>
+                        <h3 class="card-text">
+                            <a th:href="@{/user/subscribers/{id}/list(id=${userChannel.id})}"
+                               th:text="${subscribersCount}"></a>
+                        </h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<!--    <div class="alert alert-primary" th:if="${message == null}" th:text="'Select the message to edit!'"></div>-->
     <th:block th:if="${message != null}">
         <th:block th:if="${isCurrentUser}">
             <a class="btn btn-primary mt-3" data-toggle="collapse" href="#collapseExample" role="button"
@@ -20,7 +55,8 @@
 
             <div th:class="${message.text != null} ? 'collapse show' : 'collapse'" id="collapseExample">
                 <div class="mb-3 mt-3">
-                    <form th:method="POST" th:action="@{/user-messages/{currentId}(currentId=${#authentication.principal.id})}"
+                    <form th:method="POST"
+                          th:action="@{/user-messages/{currentId}(currentId=${#authentication.principal.id})}"
                           enctype="multipart/form-data" th:object="${message}">
                         <div class="form-group">
                             <input th:class="${#fields.hasErrors('text')} ? 'form-control is-invalid' : 'form-control'"
