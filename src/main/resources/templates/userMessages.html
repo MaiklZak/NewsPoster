@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>EditMessages</title>
+    <meta th:insert="fragments/common :: style">
+</head>
+<body>
+<div th:insert="fragments/navbar :: navbar"></div>
+<div class="container mt-5">
+    <div class="alert alert-primary" th:if="${message == null}" th:text="'Select the message to edit!'"></div>
+    <th:block th:if="${message != null}">
+        <th:block th:if="${isCurrentUser}">
+            <a class="btn btn-primary mt-3" data-toggle="collapse" href="#collapseExample" role="button"
+               aria-expanded="false"
+               aria-controls="collapseExample">
+                Message edit
+            </a>
+
+            <div th:class="${message.text != null} ? 'collapse show' : 'collapse'" id="collapseExample">
+                <div class="mb-3 mt-3">
+                    <form th:method="POST" th:action="@{/user-messages/{currentId}(currentId=${#authentication.principal.id})}"
+                          enctype="multipart/form-data" th:object="${message}">
+                        <div class="form-group">
+                            <input th:class="${#fields.hasErrors('text')} ? 'form-control is-invalid' : 'form-control'"
+                                   type="text"
+                                   th:field="*{text}" id="text" placeholder="Enter message"
+                                   th:value="${message != null} ? ${message.text}">
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('text')}" th:errors="*{text}">Text
+                                error
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input th:class="${#fields.hasErrors('tag')} ? 'form-control is-invalid' : 'form-control'"
+                                   type="text"
+                                   th:field="*{tag}" id="tag" placeholder="Tag"
+                                   th:value="${message != null} ? ${message.tag}">
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('tag')}" th:errors="*{tag}">Tag
+                                error
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="custom-file">
+                                <input type="file" name="file" id="customFile">
+                                <label class="custom-file-label" for="customFile">Choose file</label>
+                            </div>
+                        </div>
+                        <input type="hidden" name="id" th:value="${message != null} ? ${message.id}">
+                        <div class="form-group">
+                            <button class="btn btn-primary" type="submit">Save message</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </th:block>
+    </th:block>
+
+
+    <p th:text="${#lists.size(messages) != 0} ? '' : 'No messages'"></p>
+    <div class="card-columns">
+        <div th:each="message : ${messages}">
+            <div class="card my-3">
+                <div class="card-img-top">
+                    <img th:if="${message.filename != null}"
+                         th:src="@{/img/{filename}(filename=${message.filename})}">
+                </div>
+                <div class="m-2">
+                    <span th:text="${message.getText()}"></span><br>
+                    <i th:text="'#' + ${message.getTag()}"></i>
+                </div>
+                <div class="card-footer text-muted">
+                    <!--                    <div th:text="${mes.getAuthorName()}"></div>-->
+                    <a th:href="@{/user-messages/{currentId}(currentId=${message.author.id})}"
+                       th:text="${message.getAuthorName()}"></a>
+                    <th:block th:if="${message.author.id == #authentication.principal.id}">
+                        <a class="btn btn-primary"
+                           th:href="@{/user-messages/{currentId}(currentId=${message.author.id}, message=${message.id})}"
+                           th:text="'Edit'"></a>
+                    </th:block>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<meta th:insert="fragments/common :: javaScript">
+</body>
+</html>
