@@ -2,9 +2,9 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8"/>
     <title>Messages</title>
-    <meta th:insert="fragments/common :: style">
+    <meta th:insert="fragments/common :: style"/>
 </head>
 <body>
 <div th:insert="fragments/navbar :: navbar"></div>
@@ -29,7 +29,7 @@
                     <input th:class="${#fields.hasErrors('text')} ? 'form-control is-invalid' : 'form-control'"
                            type="text"
                            th:field="*{text}" id="text" placeholder="Enter message"
-                           th:value="${message != null} ? ${message.text}">
+                           th:value="${message != null} ? ${message.text}"/>
                     <div class="invalid-feedback" th:if="${#fields.hasErrors('text')}" th:errors="*{text}">Text error
                     </div>
                 </div>
@@ -37,12 +37,12 @@
                     <input th:class="${#fields.hasErrors('tag')} ? 'form-control is-invalid' : 'form-control'"
                            type="text"
                            th:field="*{tag}" id="tag" placeholder="Tag"
-                           th:value="${message != null} ? ${message.tag}">
+                           th:value="${message != null} ? ${message.tag}"/>
                     <div class="invalid-feedback" th:if="${#fields.hasErrors('tag')}" th:errors="*{tag}">Tag error</div>
                 </div>
                 <div class="form-group">
                     <div class="custom-file">
-                        <input type="file" name="file" id="customFile">
+                        <input type="file" name="file" id="customFile"/>
                         <label class="custom-file-label" for="customFile">Choose file</label>
                     </div>
                 </div>
@@ -55,15 +55,15 @@
 
 
     <p th:text="${#lists.size(messages) != 0} ? '' : 'No messages'"></p>
-    <div class="card-columns">
+    <div class="card-columns" id="message-list">
         <div th:each="mes : ${messages}">
-            <div class="card my-3">
+            <div class="card my-3" data-th-id="${mes.id}">
                 <div class="card-img-top">
                     <img th:if="${mes.filename != null}"
-                         th:src="@{/img/{filename}(filename=${mes.filename})}">
+                         th:src="@{/img/{filename}(filename=${mes.filename})}"/>
                 </div>
                 <div class="m-2">
-                    <span th:text="${mes.getText()}"></span><br>
+                    <span th:text="${mes.getText()}"></span><br/>
                     <i th:text="'#' + ${mes.getTag()}"></i>
                 </div>
                 <div class="card-footer text-muted">
