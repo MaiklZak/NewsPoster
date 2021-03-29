@@ -17,14 +17,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import org.thymeleaf.util.ArrayUtils;
 
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
+import java.util.Map;
 
 @Controller
 public class MainController {
@@ -89,8 +85,17 @@ public class MainController {
             messageRepository.save(message);
         }
         Page<Message> page = messageRepository.findAll(pageable);
+
+        int totalPages = page.getTotalPages();
+        Integer[] body = ControllerUtils.getArraySizePage(page, totalPages);
+        int[] sizeArray = {5, 10, 25, 50};
+        model.addAttribute("body", body);
+        model.addAttribute("url", "/main");
+        model.addAttribute("size", sizeArray);
+
         model.addAttribute("page", page);
-        return "redirect:/main";
+        return "/main";
+//        redirect
     }
 
 
