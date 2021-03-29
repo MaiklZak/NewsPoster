@@ -92,7 +92,6 @@
         </th:block>
     </th:block>
 
-
     <p th:text="${#lists.size(messages) != 0} ? '' : 'No messages'"></p>
     <div class="card-columns">
         <div th:each="message : ${messages}">

@@ -4,6 +4,9 @@ import com.example.servingwebcontent.domain.Message;
 import com.example.servingwebcontent.domain.User;
 import com.example.servingwebcontent.repository.MessageRepository;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,7 +37,8 @@ public class MessageController {
             @AuthenticationPrincipal User user,
             @PathVariable("currentId") User currentUser,
             @RequestParam(required = false) Message message,
-            Model model) {
+            Model model
+    ) {
         Set<Message> messages = currentUser.getMessages();
         model.addAttribute("userChannel", currentUser);
         model.addAttribute("subscriptionsCount", currentUser.getSubscriptions().size());
