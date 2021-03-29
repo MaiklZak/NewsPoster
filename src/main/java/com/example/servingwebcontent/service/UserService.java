@@ -3,7 +3,6 @@ package com.example.servingwebcontent.service;
 import com.example.servingwebcontent.domain.Role;
 import com.example.servingwebcontent.domain.User;
 import com.example.servingwebcontent.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
