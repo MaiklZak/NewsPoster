@@ -1,6 +1,6 @@
 package com.example.servingwebcontent;
 
-import com.example.servingwebcontent.controller.MainController;
+import com.example.servingwebcontent.controller.MessageController;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,7 @@ public class LoginTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private MainController mainController;
+    private MessageController messageController;
 
     @Test
     public void contextLoads() throws Exception {

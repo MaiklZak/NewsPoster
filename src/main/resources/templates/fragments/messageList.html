@@ -1,6 +1,60 @@
 <div th:fragment="messageList (url, page)" xmlns="http://www.w3.org/1999/xhtml"
      xmlns:th="http://www.thymeleaf.org">
-<!--    <p th:text="${#lists.size(page.content) != 0} ? '' : 'No messages'"></p>-->
+    <!--    <p th:text="${#lists.size(page.content) != 0} ? '' : 'No messages'"></p>-->
+    <ul class="pagination mt-3">
+        <li class="page-item disabled">
+            <a class="page-link" href="#" tabindex="-1">Pages</a>
+        </li>
+        <!--    https://www.baeldung.com/spring-thymeleaf-pagination       -->
+        <th:bloch th:if="${page.totalPages > 0}" class="pagination"
+                  th:each="pageNumber : ${body}">
+            <th:bloch th:if="${pageNumber - 1 == page.number}">
+                <li th:class="${pageNumber - 1 == page.number} ? 'page-item active'">     <!--page.number + 1-->
+                    <a class="page-link"
+                       th:href="@{${url}(size=${page.size}, page=${pageNumber - 1})}"
+
+                       th:text="${pageNumber}"
+                       tabindex="-1">
+                    </a>
+                </li>
+            </th:bloch>
+            <th:bloch th:if="${pageNumber  == -1}">
+                <li th:class="${pageNumber  == -1} ? 'page-item disable'">     <!--page.number + 1-->
+                    <a class="page-link"
+
+                       th:text="'...'"
+                       tabindex="-1">
+                    </a>
+                </li>
+            </th:bloch>
+            <th:bloch th:if="${pageNumber - 1 != page.number and pageNumber != -1}">
+                <li th:class="'page-item'">     <!--page.number + 1-->
+                    <a class="page-link"
+                       th:href="@{${url}(size=${page.size}, page=${pageNumber - 1})}"
+                       th:text="${pageNumber}"
+                       tabindex="-1">
+                    </a>
+                </li>
+            </th:bloch>
+
+        </th:bloch>
+    </ul>
+    <ul class="pagination mt-3">
+        <li class="page-item disabled">
+            <a class="page-link" href="#" tabindex="-1">Items on the page</a>
+        </li>
+        <!--    https://www.baeldung.com/spring-thymeleaf-pagination       -->
+        <th:bloch th:if="${page.totalPages > 0}" class="pagination"
+                  th:each="sz : ${size}">
+            <li th:class="${sz == page.size} ? 'page-item active'">     <!--page.number + 1-->
+                <a class="page-link"
+                   th:href="@{${url}(size=${sz}, page=${'0'})}"
+                   th:text="${sz}"
+                   tabindex="-1">
+                </a>
+            </li>
+        </th:bloch>
+    </ul>
     <div class="card-columns" id="message-list">
         <div th:each="mes : ${page.content}">
             <div class="card my-3" data-th-id="${mes.id}">
@@ -12,15 +66,17 @@
                     <span th:text="${mes.getText()}"></span><br/>
                     <i th:text="'#' + ${mes.getTag()}"></i>
                 </div>
-                <div class="card-footer text-muted">
-                    <!--                    <div th:text="${mes.getAuthorName()}"></div>-->
-                    <a th:href="@{/user-messages/{currentId}(currentId=${mes.author.id})}"
-                       th:text="${mes.getAuthorName()}"></a>
-                    <th:block th:if="${mes.author.id == #authentication.principal.id}">
-                        <a class="btn btn-primary"
-                           th:href="@{/user-messages/{currentId}(currentId=${mes.author.id}, message=${mes.id})}"
-                           th:text="'Edit'"></a>
-                    </th:block>
+                <div class="card-footer text-muted container">
+                    <div class="row">
+                        <!--                    <div th:text="${mes.getAuthorName()}"></div>-->
+                        <a class="col align-self-center" th:href="@{/user-messages/{currentId}(currentId=${mes.author.id})}"
+                           th:text="${mes.getAuthorName()}"></a>
+                        <th:block th:if="${mes.author.id == #authentication.principal.id}">
+                            <a class="col btn btn-primary"
+                               th:href="@{/user-messages/{currentId}(currentId=${mes.author.id}, message=${mes.id})}"
+                               th:text="'Edit'"></a>
+                        </th:block>
+                    </div>
                 </div>
             </div>
         </div>

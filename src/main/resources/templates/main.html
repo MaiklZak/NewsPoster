@@ -53,59 +53,7 @@
         </div>
     </div>
 
-    <ul class="pagination mt-3">
-        <li class="page-item disabled">
-            <a class="page-link" href="#" tabindex="-1">Pages</a>
-        </li>
-        <!--    https://www.baeldung.com/spring-thymeleaf-pagination       -->
-        <th:bloch th:if="${page.totalPages > 0}" class="pagination"
-                  th:each="pageNumber : ${body}">
-            <th:bloch th:if="${pageNumber - 1 == page.number}">
-                <li th:class="${pageNumber - 1 == page.number} ? 'page-item active'">     <!--page.number + 1-->
-                    <a class="page-link"
-                       th:href="@{/main(size=${page.size}, page=${pageNumber - 1})}"
-                       th:text="${pageNumber}"
-                       tabindex="-1">
-                    </a>
-                </li>
-            </th:bloch>
-            <th:bloch th:if="${pageNumber  == -1}">
-                <li th:class="${pageNumber  == -1} ? 'page-item disable'">     <!--page.number + 1-->
-                    <a class="page-link"
 
-                       th:text="'...'"
-                       tabindex="-1">
-                    </a>
-                </li>
-            </th:bloch>
-            <th:bloch th:if="${pageNumber - 1 != page.number and pageNumber != -1}">
-                <li th:class="'page-item'">     <!--page.number + 1-->
-                    <a class="page-link"
-                       th:href="@{/main(size=${page.size}, page=${pageNumber - 1})}"
-                       th:text="${pageNumber}"
-                       tabindex="-1">
-                    </a>
-                </li>
-            </th:bloch>
-
-        </th:bloch>
-    </ul>
-    <ul class="pagination mt-3">
-        <li class="page-item disabled">
-            <a class="page-link" href="#" tabindex="-1">Items on the page</a>
-        </li>
-        <!--    https://www.baeldung.com/spring-thymeleaf-pagination       -->
-        <th:bloch th:if="${page.totalPages > 0}" class="pagination"
-                  th:each="sz : ${size}">
-            <li th:class="${sz == page.size} ? 'page-item active'">     <!--page.number + 1-->
-                <a class="page-link"
-                   th:href="@{/main(size=${sz}, page=${'0'})}"
-                   th:text="${sz}"
-                   tabindex="-1">
-                </a>
-            </li>
-        </th:bloch>
-    </ul>
     <th:block th:insert="fragments/messageList :: messageList (${url}, ${page})"></th:block>
     <!--    <th:block th:insert="fragments/messageList :: messageList"></th:block>-->
 </div>

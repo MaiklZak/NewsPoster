@@ -1,6 +1,6 @@
 package com.example.servingwebcontent;
 
-import com.example.servingwebcontent.controller.MainController;
+import com.example.servingwebcontent.controller.MessageController;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,13 +27,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @TestPropertySource({"/application-test.properties", "/emailSender.properties"})
 @Sql(value = {"/create-user-before.sql", "/message-list-before.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 @Sql(value = {"/message-list-after.sql", "/create-user-after.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
-public class MainControllerTest {
+public class MessageControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Autowired
-    private MainController mainController;
+    private MessageController messageController;
 
     @Test
     public void mainPageTest() throws Exception {
