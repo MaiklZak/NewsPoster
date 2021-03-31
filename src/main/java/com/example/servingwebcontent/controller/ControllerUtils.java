@@ -1,6 +1,7 @@
 package com.example.servingwebcontent.controller;
 
 import com.example.servingwebcontent.domain.Message;
+import com.example.servingwebcontent.domain.dto.MessageDto;
 import org.springframework.data.domain.Page;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -42,7 +43,7 @@ public class ControllerUtils {
         }
     }
 
-    static Integer[] getArraySizePage(Page<Message> page, int totalPages) {
+    static Integer[] getArraySizePage(Page<MessageDto> page, int totalPages) {
         Integer[] body;
         if (page.getTotalPages() > 7) {
             int pageNum = page.getNumber() + 1;

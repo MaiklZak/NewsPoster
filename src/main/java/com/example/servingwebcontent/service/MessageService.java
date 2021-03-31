@@ -1,7 +1,7 @@
 package com.example.servingwebcontent.service;
 
-import com.example.servingwebcontent.domain.Message;
 import com.example.servingwebcontent.domain.User;
+import com.example.servingwebcontent.domain.dto.MessageDto;
 import com.example.servingwebcontent.repository.MessageRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,15 +16,15 @@ public class MessageService {
         this.messageRepository = messageRepository;
     }
 
-    public Page<Message> messageList(Pageable pageable, String filter) {
+    public Page<MessageDto> messageList(Pageable pageable, String filter, User user) {
         if (filter != null && !filter.isEmpty()) {
-            return messageRepository.findByTag(filter, pageable);
+            return messageRepository.findByTag(filter, pageable, user);
         } else {
-            return messageRepository.findAll(pageable);
+            return messageRepository.findAll(pageable, user);
         }
     }
 
-    public Page<Message> messageListForUser(Pageable pageable, User user, User author) {
-        return messageRepository.findByUser(pageable, author);
+    public Page<MessageDto> messageListForUser(Pageable pageable, User user, User author) {
+        return messageRepository.findByUser(pageable, author, user);
     }
 }

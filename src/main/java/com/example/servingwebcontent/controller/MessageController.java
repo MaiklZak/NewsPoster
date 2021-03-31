@@ -2,6 +2,7 @@ package com.example.servingwebcontent.controller;
 
 import com.example.servingwebcontent.domain.Message;
 import com.example.servingwebcontent.domain.User;
+import com.example.servingwebcontent.domain.dto.MessageDto;
 import com.example.servingwebcontent.repository.MessageRepository;
 import com.example.servingwebcontent.service.MessageService;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,10 +17,14 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.Map;
+import java.util.Set;
 
 @Controller
 public class MessageController {
@@ -42,10 +47,13 @@ public class MessageController {
     }
 
     @GetMapping("/main")
-    public String main(@RequestParam(required = false) String filter,
-                       Model model,
-                       @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable) {
-        Page<Message> page = messageService.messageList(pageable, filter);
+    public String main(
+            @AuthenticationPrincipal User user,
+            @RequestParam(required = false) String filter,
+            Model model,
+            @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable
+    ) {
+        Page<MessageDto> page = messageService.messageList(pageable, filter, user);
 
         int totalPages = page.getTotalPages();
 
@@ -82,7 +90,7 @@ public class MessageController {
             model.addAttribute("message", new Message());
             messageRepository.save(message);
         }
-        Page<Message> page = messageRepository.findAll(pageable);
+        Page<MessageDto> page = messageRepository.findAll(pageable, user);
 
         int totalPages = page.getTotalPages();
         Integer[] body = ControllerUtils.getArraySizePage(page, totalPages);
@@ -104,7 +112,7 @@ public class MessageController {
             Model model,
             @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable
     ) {
-        Page<Message> page = messageService.messageListForUser(pageable, user, author);
+        Page<MessageDto> page = messageService.messageListForUser(pageable, user, author);
 
         int totalPages = page.getTotalPages();
 
@@ -147,5 +155,26 @@ public class MessageController {
         }
 
         return "redirect:/user-messages/" + user.getId();
+    }
+
+    @GetMapping("messages/{message}/like")
+    public String like(
+            @AuthenticationPrincipal User user,
+            @PathVariable Message message,
+            RedirectAttributes redirectAttributes,
+            @RequestHeader(required = false) String referer
+    ) {
+        Set<User> likes = message.getLikes();
+        if (likes.contains(user)) {
+            likes.remove(user);
+        } else {
+            likes.add(user);
+        }
+
+        UriComponents components = UriComponentsBuilder.fromHttpUrl(referer).build();
+        components.getQueryParams()
+                .entrySet()
+                .forEach(pair -> redirectAttributes.addAttribute(pair.getKey(), pair.getValue()));
+        return "redirect:" + components.getPath();
     }
 }
